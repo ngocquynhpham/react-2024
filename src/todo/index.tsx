@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import ItemTodo from "./components/ItemTodo";
 import { ITodo } from "./type";
 import { Plus } from "lucide-react";
+import "./index.scss";
+import EmptyStatus from "../components/status/empty/Empty";
 
 const apiUrl = "https://huge-currently-rat.ngrok-free.app";
 
@@ -26,15 +28,15 @@ const TodoPage = () => {
         body: JSON.stringify(data),
       });
       if (res.status === 200) {
+        await getTodos();
         setAlert({
-          mess: "Tạo mới thành công",
+          mess: "Created success :)",
           type: "alert-success",
           show: true,
         });
-        getTodos();
         setIsCreate(false);
       } else {
-        throw new Error("Tạo mới không thành công !!!");
+        throw new Error("Oh no, An error occured !!!");
         // setAlert({
         //   mess: "Hệ thống bị gián đoạn",
         //   type: "alert-error",
@@ -53,10 +55,66 @@ const TodoPage = () => {
     try {
       const res = await fetch(apiUrl + "/todo/");
       const dataApi = await res.json();
-      console.log("dataApi", dataApi);
       setTodoList(dataApi);
     } catch (error) {
-      console.log("getTodos dataApi");
+      setAlert({
+        mess: "Oh no, Can't get todo list !!!",
+        type: "alert-error",
+        show: true,
+      });
+    }
+  }
+  async function deleteTodo(id: number) {
+    try {
+      const res = await fetch(apiUrl + "/todo/" + id, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (res.status === 200) {
+        await getTodos();
+        setAlert({
+          mess: "Deleted success :)",
+          type: "alert-success",
+          show: true,
+        });
+      } else {
+        throw new Error("Oh no, An error occured !!!");
+      }
+    } catch (error) {
+      setAlert({
+        mess: "Oh no, An error occured !!!",
+        type: "alert-error",
+        show: true,
+      });
+    }
+  }
+  async function updateTodo(todo: ITodo) {
+    try {
+      const res = await fetch(apiUrl + "/todo/" + todo.id + "/", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(todo)
+      });
+      if (res.status === 200) {
+        await getTodos();
+        setAlert({
+          mess: "Updated success :)",
+          type: "alert-success",
+          show: true,
+        });
+      } else {
+        throw new Error("Oh no, An error occured !!!");
+      }
+    } catch (error) {
+      setAlert({
+        mess: "Oh no, An error occured !!!",
+        type: "alert-error",
+        show: true,
+      });
     }
   }
   useEffect(() => {
@@ -70,7 +128,7 @@ const TodoPage = () => {
     }
   }, [alert.show]);
   return (
-    <>
+    <div className="main-page">
       {alert.show && (
         <div
           role="alert"
@@ -93,8 +151,8 @@ const TodoPage = () => {
         </div>
       )}
 
-      <div className="flex flex-col gap-4 items-center">
-        <h1>Welcome to Todo Project</h1>
+      <div className="flex flex-col gap-4 items-center py-4">
+        <p className="text-3xl">Welcome to Todo Project</p>
         <div className="flex gap-4 justify-center items-center w-full">
           <button
             className="w-fit btn"
@@ -103,6 +161,14 @@ const TodoPage = () => {
             }}
           >
             Back
+          </button>
+          <button
+            className="w-fit btn btn-outline"
+            onClick={() => {
+              getTodos();
+            }}
+          >
+            Refresh
           </button>
           <button
             className="w-fit btn btn-primary focus:outline-none text-white"
@@ -116,18 +182,33 @@ const TodoPage = () => {
         </div>
       </div>
 
-      <div className="card flex flex-col gap-4">
-        {todoList.map((item, index: any) => {
-          return <ItemTodo todo={item} key={index} />;
-        })}
+      <div className="flex flex-col gap-4 list-todo">
         {isCreate && (
           <ItemTodo
-            isCreate={{ iCreate: isCreate, handleCreate: handleCreate }}
+            isCreate={{
+              iCreate: isCreate,
+              setIsCreate: setIsCreate,
+              handleCreate: handleCreate,
+            }}
             todo={{ id: -1, title: "", completed: false }}
           />
         )}
+        {todoList?.length === 0 && !isCreate ? (
+          <EmptyStatus />
+        ) : (
+          todoList.map((item, index: any) => {
+            return (
+              <ItemTodo
+                todo={item}
+                key={index}
+                isDelete={{ iDelete: true, handleDelete: deleteTodo }}
+                isUpdate={{iUpdate:true, handleUpdate: updateTodo}}
+              />
+            );
+          })
+        )}
       </div>
-    </>
+    </div>
   );
 };
 

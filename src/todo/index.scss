@@ -1,0 +1,19 @@
+#root:has(.main-page) {
+    overflow-y: hidden;
+    max-height: 100dvh;
+}
+.main-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100dvh;
+}
+.list-todo {
+  max-height: calc(100dvh - 185px);
+  overflow: auto;
+  padding: 12px 24px;
+  min-width: 560px;
+}
