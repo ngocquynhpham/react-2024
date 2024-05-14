@@ -6,14 +6,19 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import TodoPage from "./todo/index.tsx";
 import NotFound from "./components/status/404/404.tsx";
+import MoviesPage from "./movies/index.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
   },
   {
-    path: "/todo",
+    path: "/todos.io",
     element: <TodoPage />,
+  },
+  {
+    path: "/movies.io",
+    element: <MoviesPage />,
   },
   {
     path: "*",

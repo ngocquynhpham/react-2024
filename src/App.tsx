@@ -19,9 +19,16 @@ function App() {
       <h1>Welcome to Vite + React Mini Project</h1>
       <div className="list mt-4">
         <button onClick={()=>{
-          navigate('/todo');
+          navigate('/todos.io');
         }}>
           Todo App
+        </button>
+      </div>
+      <div className="list mt-4">
+        <button onClick={()=>{
+          navigate('/movies.io');
+        }}>
+          Movies.io
         </button>
       </div>
     </>
