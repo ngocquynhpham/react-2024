@@ -5,6 +5,7 @@ import "./index.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import TodoPage from "./todo/index.tsx";
+import NotFound from "./components/status/404/404.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
   {
     path: "/todo",
     element: <TodoPage />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")!).render(
