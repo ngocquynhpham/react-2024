@@ -1,19 +1,11 @@
 import { useEffect, useState } from "react";
 import { IItemReview } from "../../movies/type";
-import "./CardReview.scss";
-import { Clock8, Star, StarHalf } from "lucide-react";
+import "./CardMovie.scss";
+import { Clock8, Star } from "lucide-react";
 import { formatDate } from "../../utils/datatime";
 
-const CardReview = (props: IItemReview) => {
+const CardMovie = (props: IItemReview) => {
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  // render star follow countRating;
-  // const finalArrayStar;
-  const defaultNum: number = 5;
-  const countRating: number = props.rating;
-  const star: number = Math.floor(countRating);
-  const starHaft: number = Math.round(countRating % 2);
-  const starNull: number = Math.floor(defaultNum - countRating);
- 
   useEffect(() => {
     let img = new Image();
     img.src = props.reviewer.avt;
@@ -21,8 +13,8 @@ const CardReview = (props: IItemReview) => {
     img.onload = () => {
       setIsLoaded(true);
     };
+    props.content = "Doraemon Movie 43: Nobita and the Earth Symphony did well in both listening and viewing."
   }, []);
-
   return (
     isLoaded && (
       <div className="wrap-card">
@@ -44,25 +36,17 @@ const CardReview = (props: IItemReview) => {
               </div>
             </div>
             <div className="flex gap-1">
-              {Array.from(Array(star).keys()).map((index:number)=>{
-                return <Star key={index} fill="#F97316" strokeWidth={0} />
-              })}
-              {Array.from(Array(starHaft).keys()).map((index:number)=>{
-                return <StarHalf key={index} fill="#F97316" strokeWidth={0} />
-              })}
-
-              {Array.from(Array(starNull).keys()).map((index:number)=>{
-                return <Star key={index} fill="#111" strokeWidth={0} />
-              })}
-              {/* <Star fill="#F97316" strokeWidth={0} />
+              <Star fill="#F97316" strokeWidth={0} />
               <Star fill="#F97316" strokeWidth={0} />
               <Star fill="#111" strokeWidth={0} />
               <Star fill="#111" strokeWidth={0} />
-              <Star fill="#111" strokeWidth={0} /> */}
+              <Star fill="#111" strokeWidth={0} />
             </div>
           </div>
           <div className="review__body">
-            <p className="content truncate">{props.content}</p>
+            <p className="content truncate">
+                {props.content}
+            </p>
           </div>
           <div className="review__footer">
             <Clock8 strokeWidth={1} color="#cecece" size={18} />
@@ -76,4 +60,4 @@ const CardReview = (props: IItemReview) => {
   );
 };
 
-export default CardReview;
+export default CardMovie;

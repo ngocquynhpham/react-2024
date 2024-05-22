@@ -12,8 +12,8 @@ const MoviesPage = () => {
         avt: "https://api.dicebear.com/8.x/bottts/svg",
       },
       review_at: new Date(),
-      content: "Amzing",
-      rating: 4.5,
+      content: "Doraemon Movie 43: Nobita and the Earth Symphony did well in both listening and viewing.",
+      rating: 2.5,
     },
   ];
   return (
