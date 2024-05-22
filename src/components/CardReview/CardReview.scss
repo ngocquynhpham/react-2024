@@ -1,12 +1,33 @@
-.wrap-card{
-    background-color: #192642;
-    padding: 12px;
-    border-radius: 8px;
-}.avt-reviewer{
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background-color: #fff;
-    object-fit: contain;
+.wrap-card {
+  background-color: #192642;
+  padding: 12px;
+  border-radius: 8px;
+  width: 420px;
 }
-
+.avt-reviewer {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: #fff;
+  object-fit: contain;
+}
+.review {
+  &__head {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__body{
+    font-size: 14px;
+    padding:12px 8px;
+    .content{
+        text-align: left;
+    }
+  }
+  &__footer{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    padding-left: 8px;
+  }
+}
