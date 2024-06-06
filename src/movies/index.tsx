@@ -1,31 +1,39 @@
-import CardReview from "../components/CardReview/CardReview";
+import "./index.scss";
+import CardMovie from "../components/CardMovie/CardMovie";
+import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
-import { IItemReview } from "./type";
-
+import { IMovie } from "./type";
+import { useEffect, useState } from "react";
+const apiUrl = "https://huge-currently-rat.ngrok-free.app";
 const MoviesPage = () => {
-  let data: IItemReview[] = [
-    {
-      id: 1,
-      reviewer: {
-        userName: "june",
-        id: 1,
-        name: "June Pham",
-        avt: "https://api.dicebear.com/8.x/bottts/svg",
-      },
-      review_at: new Date(),
-      content: "Doraemon Movie 43: Nobita and the Earth Symphony did well in both listening and viewing.",
-      rating: 2.5,
-    },
-  ];
+  const [movies, setMovies] = useState<IMovie[]>([]);
+
+  async function getMovies() {
+    try {
+      const res = await fetch(apiUrl + "/movies/");
+      const dataAPI = await res.json();
+      setMovies(dataAPI);
+    } catch (error) {
+      alert(error);
+    }
+  }
+  useEffect(() => {
+    getMovies();
+  }, []);
+  console.log("movies - 2 ", movies);
+
+  let data: IMovie[] = movies;
   return (
     <div className="w-full min-w-96">
-      <Header brand="Movies.io" logo="https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/227_Netflix_logo-1024.png"/>
-      {data.map((item, index) => {
-        const avtRandom =
-          item.reviewer.avt + "?seed=" + `${Math.random() * 100}`;
-        item.reviewer.avt = avtRandom;
-        return <CardReview key={index} {...item} />;
-      })}
+      <Header />
+      <div id="content-main" className="p-8">
+       <div className="grid grid-cols-3 gap-6">
+       {data.map((item, index) => {
+          return <CardMovie key={index} {...item} />;
+        })}
+       </div>
+      </div>
+      <Footer />
     </div>
   );
 };

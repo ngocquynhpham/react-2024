@@ -17,12 +17,11 @@ export interface IGenre {
 }
 export interface IMovie {
     id: number;
-    genre: IGenre;
+    genres: IGenre[];
     title: string;
     overview: string;
     poster: string;
     release_date: Date;
-    tagline: string;
-    vote_average: number; //1-10
     vote_count: number;
+    is_new?:boolean;
 }

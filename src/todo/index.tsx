@@ -53,7 +53,7 @@ const TodoPage = () => {
   }
   async function getTodos() {
     try {
-      const res = await fetch(apiUrl + "/todos.io/");
+      const res = await fetch(apiUrl + "/todo/");
       const dataApi = await res.json();
       setTodoList(dataApi);
     } catch (error) {

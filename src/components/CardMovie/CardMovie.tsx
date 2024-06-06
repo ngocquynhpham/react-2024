@@ -1,62 +1,35 @@
-import { useEffect, useState } from "react";
-import { IItemReview } from "../../movies/type";
+import { IGenre, IMovie } from "../../movies/type";
 import "./CardMovie.scss";
-import { Clock8, Star } from "lucide-react";
-import { formatDate } from "../../utils/datatime";
+// import { Clock8, Star } from "lucide-react";
+// import { formatDate } from "../../utils/datatime";
 
-const CardMovie = (props: IItemReview) => {
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
-  useEffect(() => {
-    let img = new Image();
-    img.src = props.reviewer.avt;
-
-    img.onload = () => {
-      setIsLoaded(true);
-    };
-    props.content = "Doraemon Movie 43: Nobita and the Earth Symphony did well in both listening and viewing."
-  }, []);
+const CardMovie = (props: IMovie) => {
   return (
-    isLoaded && (
-      <div className="wrap-card">
-        <div className="review">
-          <div className="review__head">
-            <div className="flex flex-auto items-center gap-2">
-              <img
-                className="avt-reviewer"
-                src={props.reviewer.avt}
-                alt={props.reviewer.name}
-              />
-              <div className="flex gap-1 flex-col items-start">
-                <span className="font-bold text-base">
-                  {props.reviewer.name}
-                </span>
-                <span className="text-gray-300 opacity-90 italic text-sx">
-                  @{props.reviewer.userName}
-                </span>
+    <div className="card w-96 bg-white bg-opacity-10 shadow-xl p-0">
+      <figure>
+        <img
+          className="object-cover h-auto w-full"
+          src={props.poster === "" ? "https://cdn4.iconfinder.com/data/icons/logos-and-brands/512/227_Netflix_logo-1024.png" : props.poster}
+          alt={props.title + "-" + props.overview.slice(0, 20)}
+        />
+      </figure>
+      <div className="card-body">
+        <h2 className="card-title">
+          {props.title}
+          {props.is_new && <div className="badge badge-primary">NEW</div>}
+        </h2>
+        <p className="text-left line-clamp-4">{props.overview || "No title"}</p>
+        <div className="card-actions justify-end">
+          {props.genres.map((item: IGenre, i: number) => {
+            return (
+              <div key={i} className="badge badge-outline">
+                {item.name}
               </div>
-            </div>
-            <div className="flex gap-1">
-              <Star fill="#F97316" strokeWidth={0} />
-              <Star fill="#F97316" strokeWidth={0} />
-              <Star fill="#111" strokeWidth={0} />
-              <Star fill="#111" strokeWidth={0} />
-              <Star fill="#111" strokeWidth={0} />
-            </div>
-          </div>
-          <div className="review__body">
-            <p className="content truncate">
-                {props.content}
-            </p>
-          </div>
-          <div className="review__footer">
-            <Clock8 strokeWidth={1} color="#cecece" size={18} />
-            <span className="text-gray-300 opacity-90 italic text-sx">
-              {formatDate(new Date(props.review_at))}
-            </span>
-          </div>
+            );
+          })}
         </div>
       </div>
-    )
+    </div>
   );
 };
 
